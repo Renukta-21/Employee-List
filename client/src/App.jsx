@@ -14,26 +14,23 @@ function App() {
   }
 
   const [newEmployee, setNewEmployee] = useState(employeeMockup)
-  const handleNewEmployee=()=>{
-    
+  const handleNewEmployee = () => {
+    console.log('ajam')
   }
+  const entries = Object.keys(employeeMockup)
+  console.log(entries)
   return (
     <div className='bg-gray-700 min-h-screen text-white flex items-center flex-col'>
       <h1 className='text-3xl font-bold'>CRUD Employee List</h1>
       <p>Simple CRUD MongoBG application</p>
       <Table>
         <tr>
-          <td><input type="text" /></td>
-          <td><input type="text" /></td>
-          <td><input type="text" /></td>
-          <td><input type="text" /></td>
-          <td><input type="text" /></td>
-          <td><input type="text" /></td>
-          <td><input type="text" /></td>
-          <td><input type="text" /></td>
-          <td className="whitespace-nowrap">
+          {entries.map(field => (
+            <td><input type="text" /></td>
+          ))}
+          <td className="whitespace-nowrap flex justify-center px-20">
             <button className="bg-green-600 p-2"
-            onClick={handleNewEmployee}>Add new employee</button>
+              onClick={handleNewEmployee}>Add new employee</button>
           </td>
         </tr>
       </Table >
