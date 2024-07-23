@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .employeeTable {
+        border: 1px solid white;
+    }
+
+    .employeeTable th,
+    td {
+        border: 1px solid white;
+        padding: 6px 20px 6px 6px;
+        width: 120px;
+    }
+
+    .employeeTable:nth-child(even) {
+        background-color: blue;
+    }
+
+    input {
+        transition: width 0.3s ease;
+        width: 100%;
+        color: black
+        /* Ancho pequeño por defecto */
+    }
+
+    input:focus {
+        width: 170px;
+        /* Ancho grande cuando está enfocado */
+    }
+
+}
