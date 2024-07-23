@@ -10,13 +10,26 @@ function App() {
     phoneNumber: null,
     position: null,
     salary: null,
-    actions: null,
-    newField:null
+    actions: null
   }
 
   const [newEmployee, setNewEmployee] = useState(employeeMockup)
+  const [employeeList, setEmployeeList] = useState([
+    {id: 21,
+      fullName: 'eduardo daniel',
+      gender: 'man',
+      email: 'edu211004@gmail.com',
+      phoneNumber: 5630548813,
+      position: 'Manager',
+      salary: '120k',
+      actions: 'none',
+      newField:null}
+  ])
   const handleNewEmployee = () => {
-    console.log('ajam')
+    setEmployeeList(prevList=>{
+      return [...prevList, newEmployee]
+    })
+    setNewEmployee(employeeMockup)
   }
   const handleChange =(e)=>{
     const fieldToSet = e.target.id.split('-')[1]
@@ -48,6 +61,15 @@ function App() {
       <h1 className='text-3xl font-bold'>CRUD Employee List</h1>
       <p>Simple CRUD MongoBG application</p>
       <Table entries={entries} readableFieldNames={readableFieldNames}>
+        {employeeList.map(employee=>{
+          return(
+            <tr key={employee.id}>
+              {entries.map((entry, idx)=>(
+                <td key={idx}>{employee[entry]}</td>
+              ))}
+            </tr>
+          )
+        })}
         <tr>
           {entries.map((field, idx) => (
             <td key={idx}><input type="text" id={`input-${field}`} onChange={handleChange}/></td>
