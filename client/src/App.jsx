@@ -29,9 +29,11 @@ function App() {
   useEffect(() => {
     const storedEmployees = localStorage.getItem('EmployeeList')
     if (storedEmployees) {
-      console.log('si hay employee list AJAJAJHASHASHASBH')
+      setEmployeeList(JSON.parse(storedEmployees))
+      console.log('Local storage loaded')
     } else {
       setEmployeeList([defaultEmployee])
+      console.log('Employee list has been created')
     }
   }, [])
 
