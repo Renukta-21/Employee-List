@@ -1,7 +1,17 @@
+import { useContext } from "react"
 import Actions from "./Actions"
 import NewEmployeeForm from "./NewEmployeeForm"
+import { EmployeeContext } from "./EmployeeContext"
 
-function Table({employeeList, entries, readableFieldNames,handleChange, handleNewEmployee, handleEdit, handleDelete }) {
+function Table({ readableFieldNames, handleNewEmployee }) {
+    const {
+        employeeList,
+        handleChange,
+        entries,
+        handleDelete,
+        handleEdit 
+    } = useContext(EmployeeContext)
+    
     return (
         <div>
             <table className="employeeTable">
