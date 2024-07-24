@@ -1,10 +1,10 @@
-import { useContext, useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef } from "react"
 import Actions from "./Actions"
 import NewEmployeeForm from "./NewEmployeeForm"
 import { EmployeeContext } from "./EmployeeContext"
 
 function Table({ readableFieldNames, handleNewEmployee }) {
-    
+    const autoFocus = useRef(null)
     const {
         employeeList,
         handleChange,
@@ -15,8 +15,10 @@ function Table({ readableFieldNames, handleNewEmployee }) {
     } = useContext(EmployeeContext)
 
     useEffect(() => {
-        
-    }, []);
+        if(autoFocus.current){
+            autoFocus.current.focus()
+        }
+    }, [editingID]);
 
     return (
         <div>
@@ -44,6 +46,7 @@ function Table({ readableFieldNames, handleNewEmployee }) {
                                                 type="text"
                                                 className="bg-main-gray text-white border-0"
                                                 value={employee[entry]} 
+                                                ref={idx===0 ? autoFocus :null }
                                             /> :
                                             employee[entry]}
                                     </td>
