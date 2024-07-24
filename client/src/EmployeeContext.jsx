@@ -2,15 +2,26 @@ import { createContext, useEffect, useState } from "react"
 
 const EmployeeContext = createContext()
 function EmployeeProvider({ children }) {
-  const defaultEmployee = {
-    id: 21,
-    fullName: 'eduardo daniel',
-    gender: 'man',
-    email: 'edu211004@gmail.com',
-    phoneNumber: 5630548813,
-    position: 'Manager',
-    salary: '120k',
-  }
+  const defaultEmployees = [
+    {
+      id: 1,
+      fullName: 'Eduardo Martinez',
+      gender: 'man',
+      email: 'edu211004@gmail.com',
+      phoneNumber: 5630548813,
+      position: 'Manager',
+      salary: '120k',
+    },
+    {
+      id:2,
+      fullName: 'Daniel Urbina',
+      gender: 'man',
+      email: 'edu211004@gmail.com',
+      phoneNumber: 5630548813,
+      position: 'Manager',
+      salary: '120k',
+    }
+  ]
   const employeeMockup = {
     id: null,
     fullName: null,
@@ -23,6 +34,7 @@ function EmployeeProvider({ children }) {
   }
   const [employeeList, setEmployeeList] = useState([])
   const [newEmployee, setNewEmployee] = useState(employeeMockup)
+  const [editingID, setEditingID] = useState(0)
   const entries = Object.keys(employeeMockup)
 
   useEffect(() => {
@@ -31,7 +43,7 @@ function EmployeeProvider({ children }) {
       setEmployeeList(JSON.parse(storedEmployees))
       console.log('Local storage loaded')
     } else {
-      setEmployeeList([defaultEmployee])
+      setEmployeeList(defaultEmployees)
       console.log('Employee list has been created')
     }
   }, [])
@@ -56,16 +68,20 @@ function EmployeeProvider({ children }) {
     })
     setNewEmployee(employeeMockup)
   }
-  const handleEdit = () => {
-
+  const handleEdit = (employeeID) => {
+    if(editingID===employeeID){
+      setEditingID(null)
+    }else{
+      setEditingID(employeeID)
+    }
   }
-  const handleDelete = () => {
-
+  const handleDelete = (employeeID) => {
+    const newList = employeeList.filter(employee=> employee.id !== employeeID)
+    setEmployeeList(newList)
   }
   return (
     <EmployeeContext.Provider value={
       {
-        defaultEmployee,
         employeeMockup,
         employeeList,
         setEmployeeList,
@@ -73,7 +89,8 @@ function EmployeeProvider({ children }) {
         entries,
         handleDelete,
         handleEdit,
-        handleChange
+        handleChange,
+        editingID
       }}>
       {children}
     </EmployeeContext.Provider>

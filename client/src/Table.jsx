@@ -1,17 +1,23 @@
-import { useContext } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import Actions from "./Actions"
 import NewEmployeeForm from "./NewEmployeeForm"
 import { EmployeeContext } from "./EmployeeContext"
 
 function Table({ readableFieldNames, handleNewEmployee }) {
+    
     const {
         employeeList,
         handleChange,
         entries,
         handleDelete,
-        handleEdit 
+        handleEdit,
+        editingID
     } = useContext(EmployeeContext)
-    
+
+    useEffect(() => {
+        
+    }, []);
+
     return (
         <div>
             <table className="employeeTable">
@@ -30,9 +36,16 @@ function Table({ readableFieldNames, handleNewEmployee }) {
                                     <td key={idx}>
                                         {entry === 'actions' ? (
                                             <Actions
+                                                idx={employee.id}
                                                 onEdit={() => handleEdit(employee.id)}
                                                 onDelete={() => handleDelete(employee.id)} />
-                                        ) : employee[entry]}
+                                        ) : editingID === employee.id ?  
+                                            <input
+                                                type="text"
+                                                className="bg-main-gray text-white border-0"
+                                                value={employee[entry]} 
+                                            /> :
+                                            employee[entry]}
                                     </td>
                                 ))}
                             </tr>
