@@ -1,7 +1,18 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 function App() {
+  const defaultEmployee = {
+    id: 21,
+    fullName: 'eduardo daniel',
+    gender: 'man',
+    email: 'edu211004@gmail.com',
+    phoneNumber: 5630548813,
+    position: 'Manager',
+    salary: '120k',
+    actions: 'none',
+    newField: null
+  }
   const employeeMockup = {
     id: null,
     fullName: null,
@@ -14,36 +25,38 @@ function App() {
   }
 
   const [newEmployee, setNewEmployee] = useState(employeeMockup)
-  const [employeeList, setEmployeeList] = useState([
-    {id: 21,
-      fullName: 'eduardo daniel',
-      gender: 'man',
-      email: 'edu211004@gmail.com',
-      phoneNumber: 5630548813,
-      position: 'Manager',
-      salary: '120k',
-      actions: 'none',
-      newField:null}
-  ])
+  const [employeeList, setEmployeeList] = useState([])
+  useEffect(() => {
+    const storedEmployees = localStorage.getItem('EmployeeList')
+    if (storedEmployees) {
+      console.log('si hay employee list AJAJAJHASHASHASBH')
+    } else {
+      setEmployeeList([defaultEmployee])
+    }
+  }, [])
+
+
   const handleNewEmployee = () => {
-    setEmployeeList(prevList=>{
-      return [...prevList, newEmployee]
+    setEmployeeList(prevList => {
+      const updatedList = prevList.concat(newEmployee)
+      localStorage.setItem('EmployeeList', JSON.stringify(updatedList))
+      return updatedList
     })
     setNewEmployee(employeeMockup)
   }
-  const handleChange =(e)=>{
+  const handleChange = (e) => {
     const fieldToSet = e.target.id.split('-')[1]
-    setNewEmployee(prevData=>{
+    setNewEmployee(prevData => {
       console.log(prevData)
-      return({
+      return ({
         ...prevData,
-        [fieldToSet ]: e.target.value
+        [fieldToSet]: e.target.value
       })
     })
-    
+
   }
   const entries = Object.keys(employeeMockup)
-  
+
   const readableFieldNames = {
     id: "ID",
     fullName: "Full Name",
@@ -61,10 +74,10 @@ function App() {
       <h1 className='text-3xl font-bold'>CRUD Employee List</h1>
       <p>Simple CRUD MongoBG application</p>
       <Table entries={entries} readableFieldNames={readableFieldNames}>
-        {employeeList.map(employee=>{
-          return(
+        {employeeList.map(employee => {
+          return (
             <tr key={employee.id}>
-              {entries.map((entry, idx)=>(
+              {entries.map((entry, idx) => (
                 <td key={idx}>{employee[entry]}</td>
               ))}
             </tr>
@@ -72,7 +85,7 @@ function App() {
         })}
         <tr>
           {entries.map((field, idx) => (
-            <td key={idx}><input type="text" id={`input-${field}`} onChange={handleChange}/></td>
+            <td key={idx}><input type="text" id={`input-${field}`} onChange={handleChange} /></td>
           ))}
           <td className="whitespace-nowrap flex justify-center px-20">
             <button className="bg-green-600 p-2"
@@ -90,7 +103,7 @@ function Table({ children, entries, readableFieldNames }) {
       <table className="employeeTable">
         <thead>
           <tr>
-            {entries.map((field,idx) => (
+            {entries.map((field, idx) => (
               <td key={idx}>{readableFieldNames[field]}</td>
             ))}
           </tr>
