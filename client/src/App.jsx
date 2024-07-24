@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-
+import Table from "./Table"
 
 function App() {
   const defaultEmployee = {
@@ -55,10 +55,10 @@ function App() {
     })
 
   }
-  const handleEdit=()=>{
+  const handleEdit = () => {
 
   }
-  const handleDelete=()=>{
+  const handleDelete = () => {
 
   }
   const entries = Object.keys(employeeMockup)
@@ -79,64 +79,16 @@ function App() {
     <div className='bg-gray-700 min-h-screen text-white flex items-center flex-col'>
       <h1 className='text-3xl font-bold'>CRUD Employee List</h1>
       <p>Simple CRUD MongoBG application</p>
-      <Table entries={entries} readableFieldNames={readableFieldNames}>
-        {employeeList.map(employee => {
-          return (
-            <tr key={employee.id}>
-              {entries.map((entry, idx) => (
-                <td key={idx}>
-                  {entry==='actions'?(
-                    <Actions
-                    onEdit={()=> handleEdit(employee.id)}
-                    onDelete={()=> handleDelete(employee.id)}/>
-                  ):employee[entry]}
-                </td>
-              ))}
-            </tr>
-          )
-        })}
-        <tr>
-          {entries.map((field, idx) => (
-            <td key={idx}>
-              {field==='actions'?(
-                <p>No actions yet</p>
-              ):<input type="text" id={`input-${field}`} onChange={handleChange} />}
-            </td>
-          ))}
-          <td className="whitespace-nowrap flex justify-center px-20">
-            <button className="bg-green-600 p-2"
-              onClick={handleNewEmployee}>Add new employee</button>
-          </td>
-        </tr>
-      </Table >
-    </div>
-  )
-}
-function Actions({ onEdit, onDelete }) {
-  return (
-    <div className="actions flex">
-      <button className="bg-blue-500 p-2 m-1 " onClick={onEdit}>Edit</button>
-      <button className="bg-red-500 p-2 m-1" onClick={onDelete}>Delete</button>
+      <Table
+        employeeList={employeeList}
+        entries={entries}
+        readableFieldNames={readableFieldNames}
+        handleChange={handleChange}
+        handleNewEmployee={handleNewEmployee}
+        handleEdit={handleEdit} handleDelete={handleDelete} />
     </div>
   )
 }
 
-function Table({ children, entries, readableFieldNames }) {
-  return (
-    <div>
-      <table className="employeeTable">
-        <thead>
-          <tr>
-            {entries.map((field, idx) => (
-              <td key={idx}>{readableFieldNames[field]}</td>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {children}
-        </tbody>
-      </table>
-    </div>)
-}
 
 export default App
