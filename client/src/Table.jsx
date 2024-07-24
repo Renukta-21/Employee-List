@@ -11,11 +11,13 @@ function Table({ readableFieldNames, handleNewEmployee }) {
         entries,
         handleDelete,
         handleEdit,
-        editingID
+        editingID,
+        editingEmployee,
+        handleEditChange
     } = useContext(EmployeeContext)
 
     useEffect(() => {
-        if(autoFocus.current){
+        if (autoFocus.current) {
             autoFocus.current.focus()
         }
     }, [editingID]);
@@ -41,12 +43,14 @@ function Table({ readableFieldNames, handleNewEmployee }) {
                                                 idx={employee.id}
                                                 onEdit={() => handleEdit(employee.id)}
                                                 onDelete={() => handleDelete(employee.id)} />
-                                        ) : editingID === employee.id ?  
+                                        ) : editingID === employee.id ?
                                             <input
+                                                id={`editField-${entry}`}
                                                 type="text"
                                                 className="bg-main-gray text-white border-0"
-                                                value={employee[entry]} 
-                                                ref={idx===0 ? autoFocus :null }
+                                                value={editingEmployee[entry]}
+                                                onChange={handleEditChange}
+                                                ref={idx === 0 ? autoFocus : null}
                                             /> :
                                             employee[entry]}
                                     </td>

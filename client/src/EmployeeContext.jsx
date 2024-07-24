@@ -35,6 +35,7 @@ function EmployeeProvider({ children }) {
   const [employeeList, setEmployeeList] = useState([])
   const [newEmployee, setNewEmployee] = useState(employeeMockup)
   const [editingID, setEditingID] = useState(0)
+  const [editingEmployee, setEditingEmployee] = useState(null);
   const entries = Object.keys(employeeMockup)
 
   useEffect(() => {
@@ -71,9 +72,21 @@ function EmployeeProvider({ children }) {
   const handleEdit = (employeeID) => {
     if(editingID===employeeID){
       setEditingID(null)
+      setEditingEmployee(null)
     }else{
       setEditingID(employeeID)
+      const employeeToEdit = employeeList.find(employee=> employee.id === employeeID)
+      setEditingEmployee(employeeToEdit)
     }
+  }
+  const handleEditChange=(e)=>{
+    const id = e.target.id.split('-')[1]
+    setEditingEmployee(prevData=>{
+      return({
+        ...prevData,
+        [id]:e.target.value
+      })
+    })
   }
   const handleDelete = (employeeID) => {
     const newList = employeeList.filter(employee=> employee.id !== employeeID)
@@ -90,7 +103,9 @@ function EmployeeProvider({ children }) {
         handleDelete,
         handleEdit,
         handleChange,
-        editingID
+        editingID,
+        editingEmployee,
+        handleEditChange
       }}>
       {children}
     </EmployeeContext.Provider>
