@@ -10,8 +10,6 @@ function App() {
     phoneNumber: 5630548813,
     position: 'Manager',
     salary: '120k',
-    actions: 'none',
-    newField: null
   }
   const employeeMockup = {
     id: null,
@@ -21,7 +19,7 @@ function App() {
     phoneNumber: null,
     position: null,
     salary: null,
-    actions: null
+    actions: ['edit', 'delete'],
   }
 
   const [newEmployee, setNewEmployee] = useState(employeeMockup)
@@ -57,6 +55,12 @@ function App() {
     })
 
   }
+  const handleEdit=()=>{
+
+  }
+  const handleDelete=()=>{
+
+  }
   const entries = Object.keys(employeeMockup)
 
   const readableFieldNames = {
@@ -68,7 +72,7 @@ function App() {
     position: "Position",
     salary: "Salary",
     actions: "Actions",
-    newField: "New Field"
+    newField: "New Field",
   };
 
   return (
@@ -80,14 +84,24 @@ function App() {
           return (
             <tr key={employee.id}>
               {entries.map((entry, idx) => (
-                <td key={idx}>{employee[entry]}</td>
+                <td key={idx}>
+                  {entry==='actions'?(
+                    <Actions
+                    onEdit={()=> handleEdit(employee.id)}
+                    onDelete={()=> handleDelete(employee.id)}/>
+                  ):employee[entry]}
+                </td>
               ))}
             </tr>
           )
         })}
         <tr>
           {entries.map((field, idx) => (
-            <td key={idx}><input type="text" id={`input-${field}`} onChange={handleChange} /></td>
+            <td key={idx}>
+              {field==='actions'?(
+                <p>No actions yet</p>
+              ):<input type="text" id={`input-${field}`} onChange={handleChange} />}
+            </td>
           ))}
           <td className="whitespace-nowrap flex justify-center px-20">
             <button className="bg-green-600 p-2"
@@ -95,6 +109,14 @@ function App() {
           </td>
         </tr>
       </Table >
+    </div>
+  )
+}
+function Actions({ onEdit, onDelete }) {
+  return (
+    <div className="actions flex">
+      <button className="bg-blue-500 p-2 m-1 " onClick={onEdit}>Edit</button>
+      <button className="bg-red-500 p-2 m-1" onClick={onDelete}>Delete</button>
     </div>
   )
 }
