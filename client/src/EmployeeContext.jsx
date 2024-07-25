@@ -13,7 +13,7 @@ function EmployeeProvider({ children }) {
       salary: '120k',
     },
     {
-      id:2,
+      id: 2,
       fullName: 'Daniel Urbina',
       gender: 'femenino',
       email: 'daniel234531@gmail.com',
@@ -32,7 +32,7 @@ function EmployeeProvider({ children }) {
     salary: null,
     actions: ['edit', 'delete'],
   }
-  
+
   const [employeeList, setEmployeeList] = useState([])
   const [newEmployee, setNewEmployee] = useState(employeeMockup)
   const [editingID, setEditingID] = useState(0)
@@ -55,7 +55,6 @@ function EmployeeProvider({ children }) {
   const handleChange = (e) => {
     const fieldToSet = e.target.id.split('-')[1]
     setNewEmployee(prevData => {
-      console.log(prevData)
       return ({
         ...prevData,
         [fieldToSet]: e.target.value
@@ -63,24 +62,36 @@ function EmployeeProvider({ children }) {
     })
 
   }
-  const handleGenderChange = (e)=>{
-      const editingEmployeeNew = {...editingEmployee, gender: e.target.value}
+  const handleGenderChange = (e) => {
+    if (editingEmployee) {
+      const editingEmployeeNew = { ...editingEmployee, gender: e.target.value }
       setEditingEmployee(editingEmployeeNew)
+    } else {
+      setNewEmployee(prevData => {
+        return ({
+          ...prevData,
+          gender: e.target.value
+        })
+      })
+    }
   }
   const handleNewEmployee = () => {
     setEmployeeList(prevList => {
       const updatedList = prevList.concat(newEmployee)
       localStorage.setItem('EmployeeList', JSON.stringify(updatedList))
+      setNewEmployee(() => {
+        return employeeMockup
+      })
       return updatedList
     })
-    setNewEmployee(updatedList)
+
   }
   const handleEdit = (employeeID) => {
-    if(editingID===employeeID){
-      const newList = employeeList.map(employee=>{
-        if(editingID===employee.id){
+    if (editingID === employeeID) {
+      const newList = employeeList.map(employee => {
+        if (editingID === employee.id) {
           return editingEmployee
-        }else{
+        } else {
           return employee
         }
       })
@@ -88,24 +99,24 @@ function EmployeeProvider({ children }) {
       setEditingID(null)
       setEditingEmployee(null)
 
-    }else{
+    } else {
       setEditingID(employeeID)
-      const employeeToEdit = employeeList.find(employee=> employee.id === employeeID)
+      const employeeToEdit = employeeList.find(employee => employee.id === employeeID)
       setEditingEmployee(employeeToEdit)
     }
-    
+
   }
-  const handleEditChange=(e)=>{
+  const handleEditChange = (e) => {
     const id = e.target.id.split('-')[1]
-    setEditingEmployee(prevData=>{
-      return({
+    setEditingEmployee(prevData => {
+      return ({
         ...prevData,
-        [id]:e.target.value
+        [id]: e.target.value
       })
     })
   }
   const handleDelete = (employeeID) => {
-    const newList = employeeList.filter(employee=> employee.id !== employeeID)
+    const newList = employeeList.filter(employee => employee.id !== employeeID)
     setEmployeeList(newList)
   }
   return (
@@ -122,7 +133,8 @@ function EmployeeProvider({ children }) {
         editingID,
         editingEmployee,
         handleEditChange,
-        handleGenderChange
+        handleGenderChange,
+        newEmployee
       }}>
       {children}
     </EmployeeContext.Provider>

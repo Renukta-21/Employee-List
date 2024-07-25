@@ -1,11 +1,14 @@
-function NewEmployeeForm({ entries, handleChange, handleNewEmployee }) {
+import Dropdown from "./Dropdown"
+
+function NewEmployeeForm({ newEmployee,entries, handleChange, handleNewEmployee }) {
+    
     return (
         <tr>
             {entries.map((field, idx) => (
                 <td key={idx}>
-                    {field === 'actions' ? (
-                        <p>No actions yet</p>
-                    ) : <input type="text" id={`input-${field}`} onChange={handleChange} />}
+                    {field === 'gender' ? (
+                        <Dropdown/>
+                    ) : <input type="text" id={`input-${field}`} onChange={handleChange} value={newEmployee[field]?newEmployee[field]:''}/>}
                 </td>
             ))}
             <td className="whitespace-nowrap flex justify-center px-20">

@@ -16,7 +16,7 @@ function Table({ readableFieldNames }) {
         editingEmployee,
         handleEditChange,
         handleNewEmployee,
-        handleGenderChange
+        newEmployee,
     } = useContext(EmployeeContext)
 
     useEffect(() => {
@@ -63,7 +63,7 @@ function Table({ readableFieldNames }) {
                             </tr>
                         )
                     })}
-                    <NewEmployeeForm entries={entries} handleChange={handleChange} handleNewEmployee={handleNewEmployee} />
+                    <NewEmployeeForm newEmployee={newEmployee} entries={entries} handleChange={handleChange} handleNewEmployee={handleNewEmployee} />
                 </tbody>
             </table>
         </div>)
