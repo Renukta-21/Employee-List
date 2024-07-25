@@ -6,7 +6,7 @@ function EmployeeProvider({ children }) {
     {
       id: 1,
       fullName: 'Eduardo Martinez',
-      gender: 'man',
+      gender: 'masculino',
       email: 'edu211004@gmail.com',
       phoneNumber: 5630548813,
       position: 'Manager',
@@ -15,7 +15,7 @@ function EmployeeProvider({ children }) {
     {
       id:2,
       fullName: 'Daniel Urbina',
-      gender: 'woman',
+      gender: 'femenino',
       email: 'daniel234531@gmail.com',
       phoneNumber: 5639029383,
       position: 'Employee',
@@ -32,10 +32,13 @@ function EmployeeProvider({ children }) {
     salary: null,
     actions: ['edit', 'delete'],
   }
+  
   const [employeeList, setEmployeeList] = useState([])
   const [newEmployee, setNewEmployee] = useState(employeeMockup)
   const [editingID, setEditingID] = useState(0)
   const [editingEmployee, setEditingEmployee] = useState(null);
+  const [gender, setGender] = useState(null)
+
   const entries = Object.keys(employeeMockup)
 
   useEffect(() => {
@@ -60,7 +63,10 @@ function EmployeeProvider({ children }) {
     })
 
   }
-
+  const handleGenderChange = (e)=>{
+      const editingEmployeeNew = {...editingEmployee, gender: e.target.value}
+      setEditingEmployee(editingEmployeeNew)
+  }
   const handleNewEmployee = () => {
     setEmployeeList(prevList => {
       const updatedList = prevList.concat(newEmployee)
@@ -115,7 +121,8 @@ function EmployeeProvider({ children }) {
         handleChange,
         editingID,
         editingEmployee,
-        handleEditChange
+        handleEditChange,
+        handleGenderChange
       }}>
       {children}
     </EmployeeContext.Provider>

@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef } from "react"
 import Actions from "./Actions"
 import NewEmployeeForm from "./NewEmployeeForm"
 import { EmployeeContext } from "./EmployeeContext"
+import Dropdown from "./Dropdown"
 
 function Table({ readableFieldNames }) {
     const autoFocus = useRef(null)
@@ -15,6 +16,7 @@ function Table({ readableFieldNames }) {
         editingEmployee,
         handleEditChange,
         handleNewEmployee,
+        handleGenderChange
     } = useContext(EmployeeContext)
 
     useEffect(() => {
@@ -44,14 +46,16 @@ function Table({ readableFieldNames }) {
                                                 idx={employee.id}
                                                 onEdit={() => handleEdit(employee.id)}
                                                 onDelete={() => handleDelete(employee.id)} />
-                                        ) : editingID === employee.id ?
-                                            <input
+                                        ) : editingID === employee.id && entry!=='id'?
+                                            entry==='gender'?
+                                            (<Dropdown gender={editingEmployee.gender}/>)
+                                            :<input
                                                 id={`editField-${entry}`}
                                                 type="text"
                                                 className="bg-main-gray text-white border-0"
                                                 value={editingEmployee[entry]}
                                                 onChange={handleEditChange}
-                                                ref={idx === 0 ? autoFocus : null}
+                                                ref={idx === 1 ? autoFocus : null}
                                             /> :
                                             employee[entry]}
                                     </td>
