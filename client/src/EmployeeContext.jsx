@@ -15,11 +15,11 @@ function EmployeeProvider({ children }) {
     {
       id:2,
       fullName: 'Daniel Urbina',
-      gender: 'man',
-      email: 'edu211004@gmail.com',
-      phoneNumber: 5630548813,
-      position: 'Manager',
-      salary: '120k',
+      gender: 'woman',
+      email: 'daniel234531@gmail.com',
+      phoneNumber: 5639029383,
+      position: 'Employee',
+      salary: '60k',
     }
   ]
   const employeeMockup = {
@@ -67,17 +67,27 @@ function EmployeeProvider({ children }) {
       localStorage.setItem('EmployeeList', JSON.stringify(updatedList))
       return updatedList
     })
-    setNewEmployee(employeeMockup)
+    setNewEmployee(updatedList)
   }
   const handleEdit = (employeeID) => {
     if(editingID===employeeID){
+      const newList = employeeList.map(employee=>{
+        if(editingID===employee.id){
+          return editingEmployee
+        }else{
+          return employee
+        }
+      })
+      setEmployeeList(newList)
       setEditingID(null)
       setEditingEmployee(null)
+
     }else{
       setEditingID(employeeID)
       const employeeToEdit = employeeList.find(employee=> employee.id === employeeID)
       setEditingEmployee(employeeToEdit)
     }
+    
   }
   const handleEditChange=(e)=>{
     const id = e.target.id.split('-')[1]

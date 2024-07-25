@@ -3,7 +3,7 @@ import Actions from "./Actions"
 import NewEmployeeForm from "./NewEmployeeForm"
 import { EmployeeContext } from "./EmployeeContext"
 
-function Table({ readableFieldNames, handleNewEmployee }) {
+function Table({ readableFieldNames }) {
     const autoFocus = useRef(null)
     const {
         employeeList,
@@ -13,7 +13,8 @@ function Table({ readableFieldNames, handleNewEmployee }) {
         handleEdit,
         editingID,
         editingEmployee,
-        handleEditChange
+        handleEditChange,
+        handleNewEmployee,
     } = useContext(EmployeeContext)
 
     useEffect(() => {
