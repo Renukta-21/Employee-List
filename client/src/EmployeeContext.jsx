@@ -98,7 +98,7 @@ function EmployeeProvider({ children }) {
       setEmployeeList(newList)
       setEditingID(null)
       setEditingEmployee(null)
-
+      localStorage.setItem('EmployeeList', JSON.stringify(newList))
     } else {
       setEditingID(employeeID)
       const employeeToEdit = employeeList.find(employee => employee.id === employeeID)
